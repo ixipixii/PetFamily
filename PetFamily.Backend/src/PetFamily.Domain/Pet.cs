@@ -66,5 +66,4 @@ public class Pet
         
         return Result.Success(pet);
     }
-    
 }
