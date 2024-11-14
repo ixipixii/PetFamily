@@ -34,6 +34,8 @@ public class Pet
     public Requisite Requisite { get; private set; } = null!; //VO
 
     public DateTime CreationDate { get; private set; }
+    
+    public IReadOnlyList<PetPhoto> Photos { get; private set; } = []; //VO
 
     #endregion
 
