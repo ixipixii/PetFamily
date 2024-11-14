@@ -18,7 +18,14 @@ public class Pet
     public bool Castrated { get; private set; }
     public DateTime BirthDate { get; private set; }
     public bool Vaccinated { get; private set; }
-    public string HelpStatus { get; private set; } = null!;
+    public HelpStatuses HelpStatus { get; private set; }
+    public enum HelpStatuses
+    {
+        FoundHome,
+        LookingForHome,
+        NeedHelp
+    } 
+    
     public Requisite Requisite { get; private set; } = null!; //VO
     public DateTime CreationDate { get; private set; }
 

@@ -48,9 +48,9 @@ public class Volunteer
 
     #region Methods
 
-    public int PetsThatHaveFoundAHome() => _pets.Count(p => p.HelpStatus == "FoundHome");
-    public int PetsThatLookingForAHome() => _pets.Count(p => p.HelpStatus == "LookingForHome");
-    public int PetsThatNeedHelp() => _pets.Count(p => p.HelpStatus == "NeedHelp");
+    public int PetsThatHaveFoundAHome() => _pets.Count(p => p.HelpStatus == Pet.HelpStatuses.FoundHome);
+    public int PetsThatLookingForAHome() => _pets.Count(p => p.HelpStatus == Pet.HelpStatuses.LookingForHome);
+    public int PetsThatNeedHelp() => _pets.Count(p => p.HelpStatus == Pet.HelpStatuses.NeedHelp);
 
     #endregion
 }
