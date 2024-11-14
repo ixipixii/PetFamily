@@ -5,34 +5,21 @@ namespace PetFamily.Domain;
 public class Pet
 {
     #region Features
-    public PetId Id { get; private set; }
+    public PetId Id { get; private set; } //VO
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-
     public string Species { get; private set; } = null!;
-
     public string Color { get; private set; } = null!;
-
     public string Health { get; private set; } = null!;
-
     public Address Address { get; private set; } = null!; //VO
-
     public string Weight { get; private set; } = null!;
-
     public string Growth { get; private set; } = null!;
-
     public Phone Phone { get; private set; } = null!; //VO
-
     public bool Castrated { get; private set; }
-
     public DateTime BirthDate { get; private set; }
-
     public bool Vaccinated { get; private set; }
-
     public string HelpStatus { get; private set; } = null!;
-
     public Requisite Requisite { get; private set; } = null!; //VO
-
     public DateTime CreationDate { get; private set; }
 
     #endregion
