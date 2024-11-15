@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain;
+namespace PetFamily.Domain.Volunteers;
 
-public class Pet
+public class Pet : Shared.Entity<PetId>
 {
     #region Features
-    public PetId Id { get; private set; } //VO
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public string Species { get; private set; } = null!;
@@ -35,18 +34,17 @@ public class Pet
 
     #region Constructors
 
-    public Pet(PetId id, string name, string description)
+    public Pet(PetId petId, string name, string description) : base(petId)
     {
-        Id = id;
         Name = name;
         Description = description;
     }
 
     //для ef
-    /*private Pet()
+    private Pet(PetId petId) : base(petId)
     {
         
-    }*/
+    }
 
     #endregion
 
