@@ -1,8 +1,8 @@
 using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain.Volunteers;
+namespace PetFamily.Domain.Volunteers.VO;
 
-public record PetPhoto
+public class PetPhoto : ComparableValueObject
 {
     public string Path { get; }
     public bool? IsMainPhoto { get; }
@@ -12,6 +12,8 @@ public record PetPhoto
         IsMainPhoto = isMainPhoto;
     }
     
+    public static PetPhoto NewPetPhoto(string path, bool isMainPhoto) => new PetPhoto(path, isMainPhoto);
+    public static PetPhoto Empty => new PetPhoto(string.Empty, null);
     public static Result<PetPhoto> Create(string path, bool? isMainPhoto)
     {
         if(string.IsNullOrWhiteSpace(path))
@@ -22,5 +24,10 @@ public record PetPhoto
         var phone = new PetPhoto(path, isMainPhoto);
         
         return Result.Success(phone);
+    }
+
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
+    {
+        yield return Path;
     }
 }

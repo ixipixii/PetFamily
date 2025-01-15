@@ -1,13 +1,16 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Species;
+using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Pet : Shared.Entity<PetId>
+public class Pet : Entity<PetId>
 {
     #region Features
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public string Species { get; private set; } = null!;
+    public SpeciesId Species { get; private set; } = null!; //VO
+    public BreedId Breed { get; private set; } = null!; //VO
     public string Color { get; private set; } = null!;
     public string Health { get; private set; } = null!;
     public Address Address { get; private set; } = null!; //VO
@@ -24,12 +27,11 @@ public class Pet : Shared.Entity<PetId>
         LookingForHome,
         NeedHelp
     } 
-    
-    public Requisite Requisite { get; private set; } = null!; //VO
+    private readonly List<PetPhoto> _photos = [];
+    private readonly List<Requisite> _requisites = [];
+    public IReadOnlyList<Requisite> Requisites => _requisites; //VO
+    public IReadOnlyList<PetPhoto> Photos => _photos; //VO
     public DateTime CreationDate { get; private set; }
-    
-    public IReadOnlyList<PetPhoto> Photos { get; private set; } = []; //VO
-
     #endregion
 
     #region Constructors
@@ -41,7 +43,7 @@ public class Pet : Shared.Entity<PetId>
     }
 
     //для ef
-    private Pet(PetId petId) : base(petId)
+    private Pet()
     {
         
     }
