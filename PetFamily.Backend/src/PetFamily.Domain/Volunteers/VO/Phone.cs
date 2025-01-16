@@ -17,8 +17,11 @@ public class Phone : ComparableValueObject
 
     public static Result<Phone> Create(string number)
     {
-        if(string.IsNullOrWhiteSpace(number) || !Regex.IsMatch(number, @"^(?:\+7|8)\s*\(?\d{3}\)?[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}$"))
-            return Result.Failure<Phone>("Number is invalid or required");
+        if(string.IsNullOrWhiteSpace(number))
+            return Result.Failure<Phone>("Number is required");
+
+        if (!Regex.IsMatch(number, @"^(?:\+7|8)\s*\(?\d{3}\)?[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}$"))
+            return Result.Failure<Phone>("Invalid phone number");
         
         var phone = new Phone(number);
         
