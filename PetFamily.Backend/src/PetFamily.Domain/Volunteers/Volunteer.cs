@@ -1,28 +1,29 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Volunteer : Shared.Entity<VolunteerId>
+public class Volunteer : Entity<VolunteerId>
 {
     #region Features
     public string FullName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public int Experience { get; private set; }
+    public int Experience { get; private set; } 
     public Phone Phone { get; private set; } = null!; //VO
     private readonly List<Pet> _pets = [];
     private readonly List<SocialNetwork> _socialNetworks = [];
     private readonly List<Requisite> _requisites = [];
     public IReadOnlyList<Pet> Pets => _pets;
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks; //VO
-    public IReadOnlyList<Requisite> Requisite => _requisites; //VO
+    public IReadOnlyList<Requisite> Requisites => _requisites; //VO
 
     #endregion
 
     #region Constructors
 
     //ef core
-    private Volunteer(VolunteerId id) : base(id)
+    private Volunteer()
     {
         
     }

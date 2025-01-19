@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 
 namespace PetFamily.Domain.Volunteers;
 
-public record SocialNetwork
+public class SocialNetwork : ComparableValueObject
 {
     public string Link { get; }
     public string Title { get; }
@@ -12,7 +12,9 @@ public record SocialNetwork
         Link = link;
         Title = title;
     }
-    
+    public static SocialNetwork NewAddress(string link, string title) => new SocialNetwork(link, title);
+    public static SocialNetwork Empty => new SocialNetwork(string.Empty, String.Empty);
+
     public static Result<SocialNetwork> Create(string link, string title)
     {
         if(string.IsNullOrWhiteSpace(link))
@@ -24,5 +26,10 @@ public record SocialNetwork
         var socialNetwork = new SocialNetwork(link, title);
         
         return Result.Success(socialNetwork);
+    }
+
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
+    {
+        yield return Link;
     }
 }
