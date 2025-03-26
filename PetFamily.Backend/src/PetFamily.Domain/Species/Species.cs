@@ -1,8 +1,9 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Species;
 
-public class Species : Entity<SpeciesId>
+public class Species : CSharpFunctionalExtensions.Entity<SpeciesId>
 {
     public string Title { get; private set; } = null!;
     private readonly List<Breed> _breeds = [];
@@ -17,13 +18,11 @@ public class Species : Entity<SpeciesId>
         Title = title;
     }
     
-    public static Result<Species> Create(string title)
+    public static Result<Species, Error> Create(string title)
     {
         if(string.IsNullOrWhiteSpace(title))
-            return Result.Failure<Species>("Title is required");
+            return Errors.General.ValueIsInvalid(nameof(title));
         
-        var species = new Species(SpeciesId.NewSpeciesId(), title);
-        
-        return Result.Success(species);
+        return new Species(SpeciesId.NewSpeciesId(), title);
     }
 }

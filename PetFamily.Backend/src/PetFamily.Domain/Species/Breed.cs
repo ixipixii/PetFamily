@@ -1,3 +1,5 @@
+using PetFamily.Domain.Shared;
+
 namespace PetFamily.Domain.Species;
 using CSharpFunctionalExtensions;
 
@@ -14,13 +16,11 @@ public class Breed : Entity<BreedId>
         Title = title;
     }
     
-    public static Result<Breed> Create(string title)
+    public static Result<Breed, Error> Create(string title)
     {
         if(string.IsNullOrWhiteSpace(title))
-            return Result.Failure<Breed>("Title is required");
+            return Errors.General.ValueIsInvalid(nameof(title));
         
-        var breed = new Breed(BreedId.NewBreedId(), title);
-        
-        return Result.Success(breed);
+        return new Breed(BreedId.NewBreedId(), title);
     }
 }
