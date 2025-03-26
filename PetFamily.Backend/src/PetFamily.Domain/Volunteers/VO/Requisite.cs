@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers;
 
@@ -15,17 +16,15 @@ public class Requisite : ComparableValueObject
     public static Requisite NewAddress(string title, string description) => new Requisite(title, description);
     public static Requisite Empty => new Requisite(string.Empty, string.Empty);
     
-    public static Result<Requisite> Create(string title, string description)
+    public static Result<Requisite, Error> Create(string title, string description)
     {
         if(string.IsNullOrWhiteSpace(title))
-            return Result.Failure<Requisite>("Title is required");
+            return Errors.General.ValueIsInvalid(nameof(title));
+
+        if (string.IsNullOrWhiteSpace(description))
+            return Errors.General.ValueIsInvalid(nameof(description));
         
-        if(string.IsNullOrWhiteSpace(description))
-            return Result.Failure<Requisite>("Description is required");
-        
-        var requisite = new Requisite(title, description);
-        
-        return Result.Success(requisite);
+        return new Requisite(title, description);
     }
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()

@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers.VO;
 
@@ -14,16 +15,14 @@ public class PetPhoto : ComparableValueObject
     
     public static PetPhoto NewPetPhoto(string path, bool isMainPhoto) => new PetPhoto(path, isMainPhoto);
     public static PetPhoto Empty => new PetPhoto(string.Empty, null);
-    public static Result<PetPhoto> Create(string path, bool? isMainPhoto)
+    public static Result<PetPhoto, Error> Create(string path, bool? isMainPhoto)
     {
         if(string.IsNullOrWhiteSpace(path))
-            return Result.Failure<PetPhoto>("Path is required");
+            return Errors.General.ValueIsInvalid("Path");
         if(isMainPhoto == null)
-            return Result.Failure<PetPhoto>("Photo is required");
+            return Errors.General.ValueIsInvalid("IsMainPhoto");
         
-        var phone = new PetPhoto(path, isMainPhoto);
-        
-        return Result.Success(phone);
+        return new PetPhoto(path, isMainPhoto);
     }
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()
