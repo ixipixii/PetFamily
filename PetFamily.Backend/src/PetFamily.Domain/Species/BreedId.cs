@@ -1,17 +1,20 @@
+using CSharpFunctionalExtensions;
+
 namespace PetFamily.Domain.Species;
 
-public class BreedId : IComparable<BreedId>
+public class BreedId : ComparableValueObject
 {
     public Guid Value { get; }
     public BreedId(Guid value)
     {
         Value = value;
     }
+    public static BreedId Empty() => new BreedId(Guid.Empty);
     public static BreedId NewBreedId() => new(Guid.NewGuid());
     public static BreedId Create(Guid id) => new(id);
     
-    public int CompareTo(BreedId? other)
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {
-        return other is null ? 1 : Value.CompareTo(other.Value);
+        yield return Value;
     }
 }
