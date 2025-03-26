@@ -1,9 +1,10 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Volunteer : Entity<VolunteerId>
+public class Volunteer : CSharpFunctionalExtensions.Entity<VolunteerId>
 {
     #region Features
     public string FullName { get; private set; } = null!;
@@ -36,17 +37,15 @@ public class Volunteer : Entity<VolunteerId>
 
     #endregion
     
-    public static Result<Volunteer> Create(string fullName, string description)
+    public static Result<Volunteer, Error> Create(string fullName, string description)
     {
         if(string.IsNullOrWhiteSpace(fullName))
-            return Result.Failure<Volunteer>("FullName is required");
+            return Errors.General.ValueIsInvalid(nameof(fullName));
         
         if(string.IsNullOrWhiteSpace(description))
-            return Result.Failure<Volunteer>("Description is required");
+            return Errors.General.ValueIsInvalid(nameof(description));
         
-        var volunteer = new Volunteer(VolunteerId.NewVolunteerId(), fullName, description);
-        
-        return Result.Success(volunteer);
+        return new Volunteer(VolunteerId.NewVolunteerId(), fullName, description);
     }
 
     #region Methods

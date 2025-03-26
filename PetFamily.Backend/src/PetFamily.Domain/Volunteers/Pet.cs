@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Species;
 using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Pet : Entity<PetId>
+public class Pet : CSharpFunctionalExtensions.Entity<PetId>
 {
     #region Features
     public string Name { get; private set; } = null!;
@@ -50,16 +51,14 @@ public class Pet : Entity<PetId>
 
     #endregion
 
-    public static Result<Pet> Create(string name, string description)
+    public static Result<Pet, Error> Create(string name, string description)
     {
         if(string.IsNullOrWhiteSpace(name))
-            return Result.Failure<Pet>("Name is required");
+            return Errors.General.ValueIsInvalid(nameof(name));
         
         if(string.IsNullOrWhiteSpace(description))
-            return Result.Failure<Pet>("Description is required");
+            return Errors.General.ValueIsInvalid(nameof(description));
         
-        var pet = new Pet(PetId.NewPetId(), name, description);
-        
-        return Result.Success(pet);
+        return new Pet(PetId.NewPetId(), name, description);
     }
 }
