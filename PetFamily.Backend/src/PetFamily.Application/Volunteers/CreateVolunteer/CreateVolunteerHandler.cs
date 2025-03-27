@@ -11,7 +11,7 @@ public class CreateVolunteerHandler
     {
         _volunteersRepository = volunteersRepository;
     }
-    public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<Guid, Error>> HandleAsync(CreateVolunteerRequest request, CancellationToken cancellationToken = default)
     {
         //валидация
         
