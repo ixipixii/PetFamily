@@ -9,14 +9,18 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 {
     public void Configure(EntityTypeBuilder<Species> builder)
     {
-        builder.ToTable("Species");
+        builder.ToTable("species");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id)
             .HasConversion(id => id.Value,
-                           id => SpeciesId.Create(id));
+                           id => SpeciesId.Create(id))
+            .HasColumnName("id");
+        
         builder.Property(s => s.Title)
             .IsRequired(true)
-            .HasMaxLength(Constants.MAX_TITLE_LENGTH);
+            .HasMaxLength(Constants.MAX_TITLE_LENGTH)
+            .HasColumnName("title");
+        
         builder.HasMany(s => s.Breeds)
             .WithOne()
             .HasForeignKey("species_id")

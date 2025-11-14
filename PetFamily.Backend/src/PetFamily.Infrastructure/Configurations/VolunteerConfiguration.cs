@@ -12,42 +12,57 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
-        builder.ToTable("Volunteers");
+        builder.ToTable("volunteers");
         
         builder.HasKey(v => v.Id);
         
         builder.Property(v => v.Id)
-                                     .HasConversion(id => id.Value,
-                                                    value => VolunteerId.Create(value));
+            .HasConversion(id => id.Value, value => VolunteerId.Create(value))
+            .HasColumnName("id");
+        
         builder.Property(v => v.FullName)
             .IsRequired(true)
-            .HasMaxLength(Constants.MAX_NAME_LENGTH);
+            .HasMaxLength(Constants.MAX_NAME_LENGTH)
+            .HasColumnName("full_name");
         
         builder.Property(v => v.Description)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_DESCRIPTION_LENGTH);
+            .HasMaxLength(Constants.MAX_DESCRIPTION_LENGTH)
+            .HasColumnName("description");
 
-        builder.Property(v => v.Email)
-            .HasMaxLength(Constants.MAX_NAME_LENGTH);
-
+        builder.ComplexProperty(v => v.Email,
+                eb =>
+                {
+                    eb.Property(e => e.Address)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_NAME_LENGTH)
+                        .HasColumnName("email");
+                });
+        
         builder.Property(v => v.Experience)
-            .HasDefaultValue(0);
+            .HasDefaultValue(0)
+            .HasColumnName("experience");
 
         builder.HasMany(v => v.Pets)
             .WithOne()
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.NoAction);
 
-        builder.Property(v => v.Phone)
-            .HasColumnType("jsonb")
-            .JsonValueObjectConversion();
+        builder.ComplexProperty(v => v.Phone,
+            p =>
+            {
+                p.Property(p => p.Number)
+                    .IsRequired()
+                    .HasColumnName("phone");
+            });
 
         builder.Property(v => v.SocialNetworks)
             .HasColumnType("jsonb")
-            .JsonValueObjectCollectionConversion();
+            .JsonValueObjectCollectionConversion()
+            .HasColumnName("social_networks");
         
         builder.Property(v => v.Requisites)
             .HasColumnType("jsonb")
-            .JsonValueObjectCollectionConversion();
+            .JsonValueObjectCollectionConversion()
+            .HasColumnName("requisites");
     }
 }

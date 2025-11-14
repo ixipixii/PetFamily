@@ -18,6 +18,10 @@ public static class Errors
             var label = name == null ? "" : $" {name} ";
             return Error.Validation("length.is.invalid", $"invalid {name} length");
         }
+    }
 
+    public static class Volunteer
+    {
+        public static Error AlreadyExist() => Error.Validation("record.already.exist", "Volunteer already exist");
     }
 }
