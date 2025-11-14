@@ -16,15 +16,17 @@ public class Phone : ComparableValueObject
     public static Phone NewPhone(string number) => new Phone(number);
     public static Phone Empty => new Phone(string.Empty);
 
-    public static Result<Phone, Error> Create(string number)
+    public static Result<Phone, Error> Create(string phone)
     {
-        if(string.IsNullOrWhiteSpace(number))
-            return Errors.General.ValueIsInvalid(nameof(number));
-
-        if (!Regex.IsMatch(number, @"^(?:\+7|8)\s*\(?\d{3}\)?[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}$"))
-            return Errors.General.ValueIsRequired(nameof(number));
+        if (string.IsNullOrWhiteSpace(phone))
+            return Errors.General.ValueIsInvalid(nameof(phone));
         
-        return new Phone(number);
+        phone = phone.Trim(); 
+
+        if (!Regex.IsMatch(phone, @"^(?:\+7|8)\s*\(?\d{3}\)?[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}$"))
+            return Errors.General.ValueIsRequired(nameof(phone));
+        
+        return new Phone(phone);
     }
 
     protected override IEnumerable<IComparable> GetComparableEqualityComponents()

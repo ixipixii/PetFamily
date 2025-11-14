@@ -4,12 +4,12 @@ using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Volunteer : CSharpFunctionalExtensions.Entity<VolunteerId>
+public class Volunteer : Shared.Entity<VolunteerId>
 {
     #region Features
     public string FullName { get; private set; } = null!;
-    public string Email { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Email Email { get; private set; } = null!;
+    public string? Description { get; private set; }
     public int Experience { get; private set; } 
     public Phone Phone { get; private set; } = null!; //VO
     private readonly List<Pet> _pets = [];
@@ -28,25 +28,36 @@ public class Volunteer : CSharpFunctionalExtensions.Entity<VolunteerId>
     {
         
     }
-    public Volunteer(VolunteerId volunteerId, string fullName, string description) : base(volunteerId)
+    public Volunteer(VolunteerId volunteerId, 
+                     string fullName, Email email, 
+                     Phone phone, 
+                     List<SocialNetwork> socialNetworks, 
+                     List<Requisite> requisites) 
+        : base(volunteerId)
     {
         FullName = fullName;
-        Description = description;
+        Email = email;
+        Phone = phone;
+        _socialNetworks = socialNetworks;
+        _requisites = requisites;
     }
     
 
     #endregion
     
-    public static Result<Volunteer, Error> Create(string fullName, string description)
+    /*public static Result<Volunteer, Error> Create(string fullName, 
+                                                  Email email, 
+                                                  Phone phone,
+                                                  List<SocialNetwork> socialNetworks,
+                                                  List<Requisite> requisites)
     {
-        if(string.IsNullOrWhiteSpace(fullName))
-            return Errors.General.ValueIsInvalid(nameof(fullName));
-        
-        if(string.IsNullOrWhiteSpace(description))
-            return Errors.General.ValueIsInvalid(nameof(description));
-        
-        return new Volunteer(VolunteerId.NewVolunteerId(), fullName, description);
-    }
+        return new Volunteer(VolunteerId.NewVolunteerId(), 
+                                fullName, 
+                                email,
+                                phone,
+                                socialNetworks,
+                                requisites);
+    }*/
 
     #region Methods
 

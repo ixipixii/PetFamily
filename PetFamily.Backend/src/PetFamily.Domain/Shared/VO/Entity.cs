@@ -1,8 +1,8 @@
 using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain.Shared;
+namespace PetFamily.Domain.Shared.VO;
 
-public abstract class Entity<TId> where TId : notnull
+public abstract class Entity<TId> where TId : IEquatable<TId>
 {
     public TId Id { get; protected set; }
 
@@ -10,8 +10,6 @@ public abstract class Entity<TId> where TId : notnull
     {
         Id = id;
     }
-    
-    protected Entity() { } // EF Core
 
     public override bool Equals(object? obj)
     {

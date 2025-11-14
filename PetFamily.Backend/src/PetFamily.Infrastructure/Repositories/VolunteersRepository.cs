@@ -25,10 +25,36 @@ public class VolunteersRepository : IVolunteersRepository
 
     public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
     {
-        var volunteer = await _dbContext.Volunteers.FirstOrDefaultAsync(v => v.Id == volunteerId);
+        var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
+            .FirstOrDefaultAsync(v => v.Id == volunteerId);
         
         if(volunteer is null)
             return Errors.General.NotFound(volunteerId);
+        
+        return volunteer;
+    }
+
+    public async Task<Result<Volunteer, Error>> GetByName(string name)
+    {
+        var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
+            .FirstOrDefaultAsync(v => v.FullName == name);
+        
+        if(volunteer is null) 
+            return Errors.General.NotFound();
+        
+        return volunteer;
+    }
+    
+    public async Task<Result<Volunteer, Error>> GetByPhone(Phone phone)
+    {
+        var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
+            .FirstOrDefaultAsync(v => v.Phone == phone);
+        
+        if(volunteer is null) 
+            return Errors.General.NotFound();
         
         return volunteer;
     }

@@ -5,13 +5,12 @@ using PetFamily.Domain.Volunteers.VO;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Pet : CSharpFunctionalExtensions.Entity<PetId>
+public class Pet : Shared.Entity<PetId>
 {
     #region Features
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public SpeciesId Species { get; private set; } = null!; //VO
-    public BreedId Breed { get; private set; } = null!; //VO
+    public SpeciesBreed SpeciesBreed { get; private set; } = null!; // VO
     public string Color { get; private set; } = null!;
     public string Health { get; private set; } = null!;
     public Address Address { get; private set; } = null!; //VO
@@ -51,7 +50,7 @@ public class Pet : CSharpFunctionalExtensions.Entity<PetId>
 
     #endregion
 
-    public static Result<Pet, Error> Create(string name, string description)
+    /*public static Result<Pet, Error> Create(string name, string description)
     {
         if(string.IsNullOrWhiteSpace(name))
             return Errors.General.ValueIsInvalid(nameof(name));
@@ -60,5 +59,5 @@ public class Pet : CSharpFunctionalExtensions.Entity<PetId>
             return Errors.General.ValueIsInvalid(nameof(description));
         
         return new Pet(PetId.NewPetId(), name, description);
-    }
+    }*/
 }

@@ -9,4 +9,6 @@ public interface IVolunteersRepository
 {
     Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken = default);
     Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId);
+    Task<Result<Volunteer, Error>> GetByName(string name);
+    Task<Result<Volunteer, Error>> GetByPhone(Phone phone);
 }
